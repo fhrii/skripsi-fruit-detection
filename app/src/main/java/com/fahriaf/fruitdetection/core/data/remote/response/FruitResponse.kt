@@ -6,12 +6,12 @@ data class FruitResponse(
     @SerializedName("name")
     val name: String,
 
-    @SerializedName("scientific_name")
+    @SerializedName("scientificName")
     val scientificName: String,
 
     @SerializedName("description")
     val description: String,
 
     @SerializedName("images")
-    val images: List<String>
+    val images: List<FruitImageResponse>
 )

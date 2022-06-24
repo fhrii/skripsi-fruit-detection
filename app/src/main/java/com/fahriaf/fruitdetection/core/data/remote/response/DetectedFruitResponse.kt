@@ -6,6 +6,6 @@ data class DetectedFruitResponse(
     @SerializedName("fruit")
     val fruit: FruitResponse?,
 
-    @SerializedName("other_detection")
-    val otherDetection: List<String>,
+    @SerializedName("similiarFruits")
+    val otherDetection: List<FruitResponse>,
 )

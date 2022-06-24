@@ -47,7 +47,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             val intent = Intent(
                 this,
                 DetailActivity::class.java
-            ).apply { putExtra(DetailActivity.EXTRA_IMAGE, it) }
+            ).apply {
+                putExtra(DetailActivity.EXTRA_IMAGE, it)
+                putExtra(DetailActivity.EXTRA_ACTION, DetailActivity.ACTION_DETECT)
+            }
             startActivity(intent)
         }
     }
@@ -59,7 +62,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     val intent = Intent(
                         this,
                         DetailActivity::class.java
-                    ).apply { putExtra(DetailActivity.EXTRA_IMAGE, uri) }
+                    ).apply {
+                        putExtra(DetailActivity.EXTRA_IMAGE, uri)
+                        putExtra(DetailActivity.EXTRA_ACTION, DetailActivity.ACTION_DETECT)
+                    }
                     startActivity(intent)
                 }
             }

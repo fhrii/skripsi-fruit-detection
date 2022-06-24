@@ -4,6 +4,6 @@ import com.fahriaf.fruitdetection.core.data.remote.response.DetectedFruitRespons
 import retrofit2.http.GET
 
 interface ApiService {
-    @GET("0c708a07-0c5a-4b79-8557-52aa02f6391b")
+    @GET("ccf6ada0-6f12-4d0a-bbf6-3d2cb2812775")
     suspend fun getFruitDetection(): DetectedFruitResponse
 }

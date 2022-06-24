@@ -8,19 +8,21 @@ import com.fahriaf.fruitdetection.core.domain.model.Fruit
 object FruitDataMapper {
     fun mapDetectedFruitResponseToDomain(detectedFruit: DetectedFruitResponse): DetectedFruit {
         return DetectedFruit(
-            fruit = mapFruitResponseToDomain(detectedFruit.fruit),
-            otherDetection = detectedFruit.otherDetection
+            fruit = if (detectedFruit.fruit != null) mapFruitResponseToDomain(detectedFruit.fruit) else null,
+            otherDetection = mapListFruitResponseToListDomain(detectedFruit.otherDetection)
         )
     }
 
-    fun mapFruitResponseToDomain(fruit: FruitResponse?): Fruit? {
-        if (fruit == null) return null
-
+    fun mapFruitResponseToDomain(fruit: FruitResponse): Fruit {
         return Fruit(
             name = fruit.name,
             scientificName = fruit.scientificName,
             description = fruit.description,
-            images = fruit.images,
+            images = FruitImageDataMapper.mapListFruitImageResponseToListDomain(fruit.images),
         )
+    }
+
+    fun mapListFruitResponseToListDomain(fruits: List<FruitResponse>): List<Fruit> {
+        return fruits.map { mapFruitResponseToDomain(it) }
     }
 }

@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.fahriaf.core.utils.toBitmap
 import com.fahriaf.fruitdetection.R
 import com.fahriaf.fruitdetection.core.data.Resource
+import com.fahriaf.fruitdetection.core.domain.model.Fruit
 import com.fahriaf.fruitdetection.core.utils.GridMarginItemDecoration
 import com.fahriaf.fruitdetection.core.utils.LinearMarginItemDecoration
 import com.fahriaf.fruitdetection.core.utils.setGone
@@ -25,6 +26,11 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
 
     companion object {
         const val EXTRA_IMAGE = "extra_image"
+        const val EXTRA_ACTION = "extra_action"
+        const val EXTRA_FRUIT = "extra_fruit"
+
+        const val ACTION_DETECT = "action_detect"
+        const val ACTION_VIEW = "action_view"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,59 +41,87 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
 
     private fun setUpLayout() {
         binding.run {
-            val uri = intent.getParcelableExtra<Uri>(EXTRA_IMAGE) as Uri
-            val image = uri.toBitmap(contentResolver)
+            val action = intent.getStringExtra(EXTRA_ACTION)
+            if (action == ACTION_DETECT) {
+                val uri = intent.getParcelableExtra<Uri>(EXTRA_IMAGE) as Uri
+                val image = uri.toBitmap(contentResolver)
 
-            if (image == null) {
-                finish()
-                return
-            }
+                if (image == null) {
+                    finish()
+                    return
+                }
 
-            Glide.with(this@DetailActivity)
-                .load(image)
-                .centerCrop()
-                .into(ivUserImage)
+                Glide.with(this@DetailActivity)
+                    .load(image)
+                    .centerCrop()
+                    .into(ivUserImage)
 
-            detailViewModel.getFruitDetection(image).observe(this@DetailActivity) { resource ->
-                when (resource) {
-                    is Resource.Success -> {
-                        val fruit = resource.data.fruit
-                        val otherFruitNames = resource.data.otherDetection
+                detailViewModel.getFruitDetection(image).observe(this@DetailActivity) { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                            val fruit = resource.data.fruit
+                            val otherFruits = resource.data.otherDetection
 
-                        if (fruit == null) finish()
-                        else {
-                            tvTitle.text = fruit.name
-                            tvTitleSci.text = fruit.scientificName
-                            tvDescription.text = fruit.description
+                            if (fruit == null) finish()
+                            else {
+                                tvTitle.text = fruit.name
+                                tvTitleSci.text = fruit.scientificName
+                                tvDescription.text = fruit.description
 
-                            val itemFruitNameAdapter = ItemFruitNameAdapter()
-                            val itemFruitPictureAdapter = ItemFruitPictureAdapter()
-                            itemFruitNameAdapter.setFruitNames(otherFruitNames)
-                            itemFruitPictureAdapter.setFruitImagesUrl(fruit.images)
-                            rvOtherFruit.adapter = itemFruitNameAdapter
-                            rvOtherFruit.setHasFixedSize(true)
-                            rvOtherFruit.addItemDecoration(
-                                LinearMarginItemDecoration(16, LinearLayoutManager.HORIZONTAL)
-                            )
-                            rvFruitPictures.adapter = itemFruitPictureAdapter
-                            rvFruitPictures.setHasFixedSize(true)
-                            rvFruitPictures.layoutManager =
-                                GridLayoutManager(this@DetailActivity, 2)
-                            rvFruitPictures.addItemDecoration(GridMarginItemDecoration(16, 2))
+                                val itemFruitNameAdapter = ItemFruitNameAdapter()
+                                val itemFruitPictureAdapter = ItemFruitPictureAdapter()
+
+                                itemFruitNameAdapter.setFruits(otherFruits)
+                                itemFruitPictureAdapter.setFruitImages(fruit.images)
+                                rvOtherFruit.adapter = itemFruitNameAdapter
+                                rvOtherFruit.setHasFixedSize(true)
+                                rvOtherFruit.addItemDecoration(
+                                    LinearMarginItemDecoration(16, LinearLayoutManager.HORIZONTAL)
+                                )
+                                rvFruitPictures.adapter = itemFruitPictureAdapter
+                                rvFruitPictures.setHasFixedSize(true)
+                                rvFruitPictures.layoutManager =
+                                    GridLayoutManager(this@DetailActivity, 2)
+                                rvFruitPictures.addItemDecoration(GridMarginItemDecoration(16, 2))
+                            }
+
+                            setLoading(false)
+                            if(otherFruits.isEmpty()) {
+                                tvOtherFruit.setGone()
+                            }
                         }
-
-                        setLoading(false)
-                    }
-                    is Resource.Loading -> setLoading(true)
-                    is Resource.Error -> {
-                        finish()
+                        is Resource.Loading -> setLoading(true)
+                        is Resource.Error -> {
+                            finish()
+                        }
                     }
                 }
+            } else {
+                val fruit = intent.getParcelableExtra<Fruit>(EXTRA_FRUIT) as Fruit
+
+                Glide.with(this@DetailActivity)
+                    .load(fruit.images[1].url)
+                    .centerCrop()
+                    .into(ivUserImage)
+
+                tvTitle.text = fruit.name
+                tvTitleSci.text = fruit.scientificName
+                tvDescription.text = fruit.description
+
+                val itemFruitPictureAdapter = ItemFruitPictureAdapter()
+                itemFruitPictureAdapter.setFruitImages(fruit.images)
+                rvFruitPictures.adapter = itemFruitPictureAdapter
+                rvFruitPictures.setHasFixedSize(true)
+                rvFruitPictures.layoutManager =
+                    GridLayoutManager(this@DetailActivity, 2)
+                rvFruitPictures.addItemDecoration(GridMarginItemDecoration(16, 2))
+
+                setLoading(false, ACTION_VIEW)
             }
         }
     }
 
-    private fun setLoading(isLoading: Boolean) {
+    private fun setLoading(isLoading: Boolean, action: String = ACTION_DETECT) {
         binding.run {
             when {
                 isLoading -> {
@@ -107,9 +141,14 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
                     tvTitleSci.setVisible()
                     tvDescriptionLabel.setVisible()
                     tvDescription.setVisible()
-                    tvOtherFruit.setVisible(); tvFruitPictures.setVisible()
+                    tvFruitPictures.setVisible()
+                    tvOtherFruit.setVisible()
                     rvOtherFruit.setVisible()
                     rvFruitPictures.setVisible()
+
+                    if (action == ACTION_VIEW) {
+                        tvOtherFruit.setGone()
+                    }
                 }
             }
         }

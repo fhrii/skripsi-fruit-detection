@@ -1,5 +1,6 @@
 package com.fahriaf.fruitdetection.core.di
 
+import com.fahriaf.fruitdetection.BuildConfig
 import com.fahriaf.fruitdetection.core.data.remote.network.ApiService
 import dagger.Module
 import dagger.Provides
@@ -25,7 +26,7 @@ class NetworkModule {
     @Provides
     fun provideApiService(client: OkHttpClient): ApiService {
         return Retrofit.Builder()
-            .baseUrl("https://mocki.io/v1/")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

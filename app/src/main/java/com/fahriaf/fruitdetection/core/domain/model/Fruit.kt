@@ -8,5 +8,5 @@ data class Fruit(
     val name: String,
     val scientificName: String,
     val description: String,
-    val images: List<String>
+    val images: List<FruitImage>
 ) : Parcelable

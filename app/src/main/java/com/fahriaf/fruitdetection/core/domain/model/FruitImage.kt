@@ -4,7 +4,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DetectedFruit(
-    val fruit: Fruit?,
-    val otherDetection: List<Fruit>
+class FruitImage(
+    val url: String,
 ) : Parcelable
