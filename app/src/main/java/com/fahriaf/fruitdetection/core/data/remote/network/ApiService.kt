@@ -1,9 +1,13 @@
 package com.fahriaf.fruitdetection.core.data.remote.network
 
 import com.fahriaf.fruitdetection.core.data.remote.response.DetectedFruitResponse
-import retrofit2.http.GET
+import okhttp3.MultipartBody
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
 
 interface ApiService {
-    @GET("ccf6ada0-6f12-4d0a-bbf6-3d2cb2812775")
-    suspend fun getFruitDetection(): DetectedFruitResponse
+    @Multipart
+    @POST("detector")
+    suspend fun getFruitDetection(@Part image: MultipartBody.Part): DetectedFruitResponse
 }

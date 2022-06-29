@@ -17,7 +17,7 @@ class FruitRepository @Inject constructor(
     override fun getFruitDetection(image: Bitmap): Flow<Resource<DetectedFruit>> {
         return flow {
             emit(Resource.Loading())
-            when (val response = remoteDataSource.getFruitDetection().first()) {
+            when (val response = remoteDataSource.getFruitDetection(image).first()) {
                 is ApiResponse.Success -> emit(
                     Resource.Success(
                         FruitDataMapper.mapDetectedFruitResponseToDomain(

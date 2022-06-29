@@ -2,7 +2,9 @@ package com.fahriaf.fruitdetection.ui.detail
 
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +33,9 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
 
         const val ACTION_DETECT = "action_detect"
         const val ACTION_VIEW = "action_view"
+
+        @StringRes
+        private const val FRUIT_NOT_FOUND_RES = R.string.fruit_not_found
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,10 +98,12 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
                         is Resource.Loading -> setLoading(true)
                         is Resource.Error -> {
                             finish()
+                            Toast.makeText(this@DetailActivity, getString(FRUIT_NOT_FOUND_RES), Toast.LENGTH_LONG).show()
                         }
                     }
                 }
             } else {
+                setLoading(false, ACTION_VIEW)
                 val fruit = intent.getParcelableExtra<Fruit>(EXTRA_FRUIT) as Fruit
 
                 Glide.with(this@DetailActivity)
@@ -115,8 +122,6 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
                 rvFruitPictures.layoutManager =
                     GridLayoutManager(this@DetailActivity, 2)
                 rvFruitPictures.addItemDecoration(GridMarginItemDecoration(16, 2))
-
-                setLoading(false, ACTION_VIEW)
             }
         }
     }
