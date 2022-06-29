@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
-import com.fahriaf.core.utils.toBitmap
+import com.fahriaf.fruitdetection.core.utils.toBitmap
 import com.fahriaf.fruitdetection.R
 import com.fahriaf.fruitdetection.core.data.Resource
 import com.fahriaf.fruitdetection.core.domain.model.Fruit
@@ -60,6 +60,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
 
                 Glide.with(this@DetailActivity)
                     .load(image)
+                    .override(600,600)
                     .centerCrop()
                     .into(ivUserImage)
 
@@ -90,7 +91,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
                                 rvFruitPictures.setHasFixedSize(true)
                                 rvFruitPictures.layoutManager =
                                     GridLayoutManager(this@DetailActivity, 2)
-                                rvFruitPictures.addItemDecoration(GridMarginItemDecoration(16, 2))
+                                rvFruitPictures.addItemDecoration(GridMarginItemDecoration(2, 16, false, 0))
                             }
 
                             setLoading(false)
@@ -111,6 +112,8 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
 
                 Glide.with(this@DetailActivity)
                     .load(fruit.images[1].url)
+                    .placeholder(R.drawable.ic_fruit_basket)
+                    .override(600,600)
                     .centerCrop()
                     .into(ivUserImage)
 
@@ -124,7 +127,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
                 rvFruitPictures.setHasFixedSize(true)
                 rvFruitPictures.layoutManager =
                     GridLayoutManager(this@DetailActivity, 2)
-                rvFruitPictures.addItemDecoration(GridMarginItemDecoration(16, 2))
+                rvFruitPictures.addItemDecoration(GridMarginItemDecoration(2, 16, false, 0))
             }
         }
     }

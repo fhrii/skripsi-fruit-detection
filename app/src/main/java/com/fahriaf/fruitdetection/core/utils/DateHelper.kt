@@ -5,5 +5,5 @@ import java.util.*
 
 object DateHelper {
     private var fileNameProfileFormat = SimpleDateFormat("ddMMyyyy_HHmmss", Locale.getDefault())
-    fun dateNowString() = fileNameProfileFormat.format(Date())
+    fun dateNowString(): String = fileNameProfileFormat.format(Date())
 }

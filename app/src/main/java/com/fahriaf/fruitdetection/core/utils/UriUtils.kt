@@ -1,4 +1,4 @@
-package com.fahriaf.core.utils
+package com.fahriaf.fruitdetection.core.utils
 
 import android.content.ContentResolver
 import android.graphics.Bitmap
@@ -15,8 +15,7 @@ fun Uri.toBitmap(contentResolver: ContentResolver): Bitmap? {
         val fileDescriptor: FileDescriptor = parcelFileDescriptor.fileDescriptor
         val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
         parcelFileDescriptor.close()
-        val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(image.toByteArray()))
-        return decoded
+        return BitmapFactory.decodeStream(ByteArrayInputStream(image.toByteArray()))
     } catch (e: Exception) {
         e.printStackTrace()
         return null

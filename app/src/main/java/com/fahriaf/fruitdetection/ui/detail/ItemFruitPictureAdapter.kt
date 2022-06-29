@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.fahriaf.fruitdetection.R
 import com.fahriaf.fruitdetection.core.domain.model.FruitImage
 import com.fahriaf.fruitdetection.databinding.ItemFruitPictureBinding
 
@@ -41,6 +42,7 @@ class ItemFruitPictureAdapter : RecyclerView.Adapter<ItemFruitPictureAdapter.Vie
             binding.run {
                 Glide.with(itemView.context)
                     .load(imageUrl.url)
+                    .placeholder(R.drawable.ic_fruit_basket)
                     .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(24)))
                     .into(ivFruit)
             }

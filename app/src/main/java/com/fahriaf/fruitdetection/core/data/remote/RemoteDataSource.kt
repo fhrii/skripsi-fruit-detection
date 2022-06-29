@@ -2,7 +2,7 @@ package com.fahriaf.fruitdetection.core.data.remote
 
 import android.graphics.Bitmap
 import android.util.Log
-import com.fahriaf.core.utils.toByteArray
+import com.fahriaf.fruitdetection.core.utils.toByteArray
 import com.fahriaf.fruitdetection.core.data.remote.network.ApiResponse
 import com.fahriaf.fruitdetection.core.data.remote.network.ApiService
 import com.fahriaf.fruitdetection.core.data.remote.response.DetectedFruitResponse

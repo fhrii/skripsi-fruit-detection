@@ -1,4 +1,4 @@
-package com.fahriaf.core.utils
+package com.fahriaf.fruitdetection.core.utils
 
 import android.graphics.Bitmap
 import java.io.ByteArrayOutputStream

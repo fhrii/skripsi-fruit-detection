@@ -1,4 +1,4 @@
-package com.fahriaf.core.utils
+package com.fahriaf.fruitdetection.core.utils
 
 import android.content.Context
 import android.net.Uri

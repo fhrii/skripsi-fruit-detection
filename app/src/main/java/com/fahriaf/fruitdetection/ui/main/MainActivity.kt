@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.fahriaf.core.utils.createImageTempFile
+import com.fahriaf.fruitdetection.core.utils.createImageTempFile
 import com.fahriaf.fruitdetection.R
 import com.fahriaf.fruitdetection.databinding.ActivityMainBinding
 import com.fahriaf.fruitdetection.ui.detail.DetailActivity
