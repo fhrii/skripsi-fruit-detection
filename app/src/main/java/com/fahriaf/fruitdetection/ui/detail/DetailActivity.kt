@@ -36,6 +36,8 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
 
         @StringRes
         private const val FRUIT_NOT_FOUND_RES = R.string.fruit_not_found
+        @StringRes
+        private const val FRUIT_PICTURES_WITH_NAME_RES = R.string.fruit_pictures_with_name
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +74,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
                                 tvTitle.text = fruit.name
                                 tvTitleSci.text = fruit.scientificName
                                 tvDescription.text = fruit.description
+                                tvFruitPictures.text = String.format(getString(FRUIT_PICTURES_WITH_NAME_RES), fruit.name)
 
                                 val itemFruitNameAdapter = ItemFruitNameAdapter()
                                 val itemFruitPictureAdapter = ItemFruitPictureAdapter()

@@ -13,5 +13,6 @@
     <string name="description">Deskripsi</string>
     <string name="other_detected_fruit">Buah yang terdeteksi atau mirip lainnya</string>
     <string name="fruit_pictures">Gambar</string>
+    <string name="fruit_pictures_with_name">Gambar %s</string>
     <string name="fruit_not_found">Buah tidak ditemukan</string>
 </resources>
